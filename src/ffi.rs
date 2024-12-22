@@ -4,7 +4,13 @@ use std::io::{Cursor,Read};
 use std::mem;
 use std::ptr;
 use std::slice;
-use libc::{c_uchar,c_uint,size_t};
+
+#[allow(non_camel_case_types)]
+type c_uint = u32;
+#[allow(non_camel_case_types)]
+type c_uchar = u8;
+#[allow(non_camel_case_types)]
+type size_t = usize;
 
 use ::{BayerDepth,BayerError,BayerResult,CFA,RasterDepth,RasterMut};
 use demosaic;
