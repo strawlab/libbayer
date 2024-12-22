@@ -40,7 +40,7 @@ macro_rules! fill_row {
         while i < $x1 {
             $dst[i + 0] = r0;
             $dst[i + 1] = g0;
-            i = i + 2;
+            i += 2;
         }
 
         // Right border.
@@ -50,7 +50,7 @@ macro_rules! fill_row {
         while i + 1 < $x3 {
             $dst[i + 0] = r0;
             $dst[i + 1] = g0;
-            i = i + 2;
+            i += 2;
         }
         if i == $x3 - 1 {
             $dst[i] = r0;
@@ -70,7 +70,7 @@ impl BorderReplicate8 {
 }
 
 impl BayerRead8 for BorderReplicate8 {
-    fn read_line(&self, r: &mut Read, dst: &mut [u8]) -> BayerResult<()> {
+    fn read_line(&self, r: &mut dyn Read, dst: &mut [u8]) -> BayerResult<()> {
         let BorderReplicate8(x1, x2, x3) = *self;
         read_exact_u8(r, &mut dst[x1..x2])?;
         fill_row!(dst, x1, x2, x3);
@@ -90,7 +90,7 @@ impl BorderReplicate16BE {
 }
 
 impl BayerRead16 for BorderReplicate16BE {
-    fn read_line(&self, r: &mut Read, dst: &mut [u16]) -> BayerResult<()> {
+    fn read_line(&self, r: &mut dyn Read, dst: &mut [u16]) -> BayerResult<()> {
         let BorderReplicate16BE(x1, x2, x3) = *self;
         read_exact_u16be(r, &mut dst[x1..x2])?;
         fill_row!(dst, x1, x2, x3);
@@ -110,7 +110,7 @@ impl BorderReplicate16LE {
 }
 
 impl BayerRead16 for BorderReplicate16LE {
-    fn read_line(&self, r: &mut Read, dst: &mut [u16]) -> BayerResult<()> {
+    fn read_line(&self, r: &mut dyn Read, dst: &mut [u16]) -> BayerResult<()> {
         let BorderReplicate16LE(x1, x2, x3) = *self;
         read_exact_u16le(r, &mut dst[x1..x2])?;
         fill_row!(dst, x1, x2, x3);

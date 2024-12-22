@@ -46,7 +46,7 @@ fn run_demosaic<F>(
     dst: *mut CRasterMut,
 ) -> c_uint
 where
-    F: FnOnce(&mut Read, BayerDepth, CFA, &mut RasterMut) -> BayerResult<()>,
+    F: FnOnce(&mut dyn Read, BayerDepth, CFA, &mut RasterMut) -> BayerResult<()>,
 {
     if src.is_null() || dst.is_null() {
         println!("{} {} - bad input parameters", file, line);
@@ -77,7 +77,7 @@ where
     let src_slice = unsafe { slice::from_raw_parts(src, src_len) };
     let dst_raster = unsafe { transmute_raster_mut(dst) };
 
-    match run(&mut Cursor::new(&src_slice[..]), depth, cfa, dst_raster) {
+    match run(&mut Cursor::new(src_slice), depth, cfa, dst_raster) {
         Ok(_) => 0,
         Err(BayerError::WrongResolution) => 2,
         Err(BayerError::WrongDepth) => 3,

@@ -65,7 +65,7 @@ fn main() {
     let mut buf = vec![0; bayer_w * bayer_h * bytes_per_pixel];
 
     read_file(
-        &Path::new(&files[0]),
+        Path::new(&files[0]),
         bayer_w,
         bayer_h,
         depth,
@@ -155,7 +155,7 @@ fn main() {
                     if idx == 0 {
                         idx = files.len() - 1;
                     } else {
-                        idx = idx - 1;
+                        idx -= 1;
                     }
                 }
 
@@ -185,7 +185,7 @@ fn main() {
                 }
 
                 read_file(
-                    &Path::new(&files[idx]),
+                    Path::new(&files[idx]),
                     bayer_w,
                     bayer_h,
                     depth,
@@ -314,7 +314,7 @@ fn read_file(
         }
     }
 
-    render_to_texture(texture, bayer_w, bayer_h, depth, &buf);
+    render_to_texture(texture, bayer_w, bayer_h, depth, buf);
 }
 
 fn render_to_texture(
@@ -369,6 +369,6 @@ fn render_to_texture(
 
 fn present_to_screen(canvas: &mut sdl2::render::WindowCanvas, texture: &sdl2::render::Texture) {
     canvas.clear();
-    let _ = canvas.copy(&texture, None, None);
+    let _ = canvas.copy(texture, None, None);
     canvas.present();
 }
