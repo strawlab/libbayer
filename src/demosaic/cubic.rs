@@ -264,7 +264,7 @@ fn debayer_u16(r: &mut dyn Read, be: bool, cfa: CFA, dst: &mut RasterMut) -> Bay
 
 #[cfg(not(feature = "rayon"))]
 #[allow(unused_parens)]
-fn debayer_u8(r: &mut Read, cfa: CFA, dst: &mut RasterMut) -> BayerResult<()> {
+fn debayer_u8(r: &mut dyn Read, cfa: CFA, dst: &mut RasterMut) -> BayerResult<()> {
     let (w, h) = (dst.w, dst.h);
     let mut prv3 = vec![0u8; 2 * PADDING + w];
     let mut prv2 = vec![0u8; 2 * PADDING + w];
@@ -326,7 +326,7 @@ fn debayer_u8(r: &mut Read, cfa: CFA, dst: &mut RasterMut) -> BayerResult<()> {
 
 #[cfg(not(feature = "rayon"))]
 #[allow(unused_parens)]
-fn debayer_u16(r: &mut Read, be: bool, cfa: CFA, dst: &mut RasterMut) -> BayerResult<()> {
+fn debayer_u16(r: &mut dyn Read, be: bool, cfa: CFA, dst: &mut RasterMut) -> BayerResult<()> {
     let (w, h) = (dst.w, dst.h);
     let mut prv3 = vec![0u16; 2 * PADDING + w];
     let mut prv2 = vec![0u16; 2 * PADDING + w];
@@ -337,7 +337,7 @@ fn debayer_u16(r: &mut Read, be: bool, cfa: CFA, dst: &mut RasterMut) -> BayerRe
     let mut nxt3 = vec![0u16; 2 * PADDING + w];
     let mut cfa = cfa;
 
-    let rdr: Box<BayerRead16> = if be {
+    let rdr: Box<dyn BayerRead16> = if be {
         Box::new(BorderMirror16BE::new(w, PADDING))
     } else {
         Box::new(BorderMirror16LE::new(w, PADDING))

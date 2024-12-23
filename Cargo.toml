@@ -10,6 +10,7 @@ license = "MIT"
 readme = "README.md"
 keywords = ["bayer", "cfa", "demosaic"]
 categories = ["multimedia::images"]
+edition = "2015"
 
 [lib]
 name = "bayer"
